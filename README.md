@@ -1,6 +1,8 @@
-# sc_client
+# vue-form
 
 > Service Contract Mobile Client
+
+#写在前面，项目基于vue全家桶+semanticUI，有bug，有空修复
 
 ## Build Setup
 
