@@ -28,7 +28,8 @@
 <script>
 import scClient from '../sc_client.js'
 import {mapMutations} from 'vuex'
-import md5 from 'js-md5'
+import {SCMetaData} from '../data.js'
+// import md5 from 'js-md5'
 export default {
   created () {},
   mounted () {},
@@ -47,17 +48,22 @@ export default {
         window.$.msg('请输入账号和密码')
         return
       }
+      scClient.scMetaDataHandler(SCMetaData)
+      scClient.closeMsg() // 关闭会话过期
+      this.initSCMetaData()
+      this.$router.push({name: scClient.MobileRouterName.orders})
+      /**
       let params = {'UserId': account, 'Password': md5(pass), 'AppVersion': '1.2'}
       scClient.callRemoteMethod('gcidifc/userLogin', params, true, response => {
         // console.log('gcidifc/userLogin', response)
         scClient.callRemoteMethod('loadSCMetaData', null, false, response => {
-          console.log('login')
           scClient.scMetaDataHandler(response)
           scClient.closeMsg() // 关闭会话过期
           this.initSCMetaData()
           this.$router.push({name: scClient.MobileRouterName.orders})
         })
       })
+      */
     }
   }
 }

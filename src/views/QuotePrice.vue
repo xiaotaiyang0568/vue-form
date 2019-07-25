@@ -86,6 +86,7 @@ import global from '../sc_global.js'
 import merchandiseInfo from '../components/MerchandiseInfo.vue'
 import countBox from '../components/editBox/CountBox.vue'
 import enumBox from '../components/editBox/EnumBox.vue'
+import {metaExperimentQuoteUnit} from '../data.js'
 export default {
   created () {
   },
@@ -158,12 +159,15 @@ export default {
       return val ? 'modified' : ''
     },
     getExperimentQuoteUnit () {
+      this.metaExperimentQuoteUnit = this.experimentQuoteUnitHandler(metaExperimentQuoteUnit)
+      /**
       let params = {serviceMerchandiseGUID: this.merchandise.serviceMerchandiseGUID, version: this.merchandise.version}
       scClient.callRemoteMethod('retrieveMetaExperimentQuoteUnit', params, true, response => {
         if (response) {
           this.metaExperimentQuoteUnit = this.experimentQuoteUnitHandler(response)
         }
       })
+       */
     },
     getExpFromMetaExp (dt) {
       let experimentMetaData = this.SCMetaData.metaExperimentsMap

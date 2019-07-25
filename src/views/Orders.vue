@@ -100,6 +100,7 @@ import scClient from '../sc_client.js'
 import {mapMutations, mapGetters, mapState} from 'vuex'
 import selectBox from '../components/editBox/SelectBox.vue'
 import inputBox from '../components/editBox/InputBox.vue'
+import {serviceOrders} from '../data.js'
 export default {
   data () {
     return {
@@ -231,6 +232,27 @@ export default {
         window.$.msgError('警告，无权限用户，请重新登录')
         return
       }
+      let data = serviceOrders
+      if (this.serviceOrders && this.serviceOrders.length > 0 && !filter) {
+        this.serviceOrders = this.serviceOrders.concat(data.serviceOrders)
+      } else {
+        this.serviceOrders = data.serviceOrders ? data.serviceOrders : []
+      }
+      this.serviceOrders = this.serviceOrders.sort((x, y) => y.id - x.id)
+      this.amount = this.serviceOrders.length < this.params.pageSize ? this.serviceOrders.length : data.amount
+      this.setServiceOrders(this.serviceOrders)
+      if (filter) {
+        let oLength = this.serviceOrders.length
+        if (oLength < this.params.pageSize) { // 处理查询结果少于pageSize
+          this.amount = oLength
+        }
+        window.$.msg('为您找到' + this.amount + '条数据')
+      }
+      if (typeof callback === 'function') {
+        callback()
+      }
+      this.onBottomVisible()
+      /**
       let param = this.params
       // 调用后台数据接口
       scClient.callRemoteMethod('retrieveServiceOrders', param, true, (data) => {
@@ -255,6 +277,7 @@ export default {
         }
         this.onBottomVisible()
       })
+       */
     },
     clickSearchBtn () {
       this.params.startIndex = scClient.Pagination.startIndex

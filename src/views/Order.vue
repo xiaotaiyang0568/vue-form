@@ -76,6 +76,7 @@ import scClient from '../sc_client.js'
 import global from '../sc_global.js'
 import {mapGetters, mapMutations, mapState} from 'vuex'
 import merchandiseInfo from '../components/MerchandiseInfo.vue'
+import {experimentDesignV2} from '../data.js'
 export default {
   name: 'Order',
   data () {
@@ -189,6 +190,10 @@ export default {
     clickMerchandise (mer) {
       this.currentClickMerchandise = mer
       this.$route.query.metaExperimentIds = undefined // 点击商品名称加载实验设计信息时，应不受路由参数影响
+      let response = experimentDesignV2
+      this.experimentIDs = response.metaExperimentIds.sort((x, y) => x - y) // id从小到大排序
+      this.serviceCategoryId = response.serviceMerchandise.serviceCategoryId
+      /**
       let params = {
         version: mer.version,
         serviceMerchandiseGUID: mer.serviceMerchandiseGUID
@@ -198,6 +203,7 @@ export default {
         this.experimentIDs = response.metaExperimentIds.sort((x, y) => x - y) // id从小到大排序
         this.serviceCategoryId = response.serviceMerchandise.serviceCategoryId
       })
+       */
     },
     selectCopyMerchandise () {
       this.setGoalOrderForPaste(this.$router.currentRoute.params)
